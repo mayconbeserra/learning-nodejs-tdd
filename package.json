@@ -36,7 +36,9 @@
   "scripts": {
     "start": "node ./bin/service.js",
     "compile": "babel --presets es2015,stage-0 -d lib/ src/",
-    "test": "npm run compile && mocha --compilers js:babel-core/register --recursive --watch-extensions .spec.js ./spec"
+    "test": "npm run compile && mocha --compilers js:babel-core/register --recursive --watch-extensions .spec.js ./spec",
+    "migrations:test": "node_modules/.bin/knex migrate:latest --env test",
+    "seed:test": "node_modules/.bin/knex seed:run --env test"
   },
   "repository": {
     "type": "git",

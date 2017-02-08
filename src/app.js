@@ -1,9 +1,10 @@
 import express from 'express';
-import routes from './routes';
+import api from './api';
 
 export async function application(config) {
   const app = express();
-  routes(app);
+
+  api(app);
 
   app.use((err, req, res, next) => { // eslint-disable-line consistent-return,no-unused-vars
     if (err) {
