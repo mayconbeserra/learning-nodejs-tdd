@@ -1,9 +1,13 @@
 import express from 'express';
+import bodyParser from 'body-parser';
+import expressValidator from 'express-validator';
 import api from './api';
 
 export async function application(config) {
   const app = express();
 
+  app.use(bodyParser.json());
+  app.use(expressValidator());
   api(app);
 
   app.use((err, req, res, next) => { // eslint-disable-line consistent-return,no-unused-vars

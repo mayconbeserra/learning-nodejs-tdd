@@ -1,4 +1,5 @@
 import ShowsRepository from '../repositories/showsRepository';
+import validate from '../middlewares/validation';
 
 export default (app) => {
   app.get('/api/v1/shows', (req, res, next) => {
@@ -21,11 +22,12 @@ export default (app) => {
     });
   });
 
-  app.post('/api/v1/shows', (req, res, next) => {
+  app.post('/api/v1/shows', validate().showsPost, (req, res, next) => {
     const repository = new ShowsRepository();
+
     repository.insert(req.body)
-      .then((showId) => {
-        res.status(200).json({ id: showId });
+      .then((show) => {
+        res.status(200).json(show[0]);
       })
       .catch((err) => {
         next(err);

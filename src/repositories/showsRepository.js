@@ -21,5 +21,8 @@ const getById = (showId) => {
 };
 
 const insert = (show) => {
-  return shows().insert(show, 'id');
+  return shows().insert(
+    show,
+    ['id', 'name', 'channel', 'genre', 'rating', 'explicit'],
+  );
 };

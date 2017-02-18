@@ -76,7 +76,7 @@ describe('api/v1/shows', () => {
         .send({
           name: 'GoT',
           channel: 'HBO',
-          genre: '',
+          genre: 'Serial Drama',
           rating: 10,
           explicit: true,
         })
@@ -85,7 +85,21 @@ describe('api/v1/shows', () => {
 
           expect(res).to.have.status(200);
           expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('channel', 'HBO');
+          expect(res.body).to.have.property('genre', 'Serial Drama');
+          expect(res.body).to.have.property('rating', 10);
+          expect(res.body).to.have.property('explicit', true);
 
+          return done();
+        });
+    });
+
+    it('should return a bad request when the body is empty', (done) => {
+      chai.request(server)
+        .post('/api/v1/shows')
+        .send({ })
+        .end(async (err, res) => {
+          expect(res).to.have.status(400);
           return done();
         });
     });

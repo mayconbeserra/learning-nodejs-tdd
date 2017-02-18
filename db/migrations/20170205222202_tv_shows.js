@@ -1,5 +1,5 @@
-exports.up = function(knex, Promise) {
-  return knex.schema.createTable('shows', function(table){
+exports.up = function (knex) {
+  return knex.schema.createTable('shows', (table) => {
     table.increments();
     table.string('name').notNullable().unique();
     table.string('channel').notNullable();
@@ -9,6 +9,6 @@ exports.up = function(knex, Promise) {
   });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function (knex) {
   return knex.schema.dropTable('shows');
 };
