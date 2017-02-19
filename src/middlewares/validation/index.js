@@ -1,7 +1,8 @@
-import validateShows from './validateShows';
+import { validatePost, validatePut } from './validateShows';
 
 export default function () {
   return {
-    showsPost: validateShows,
+    showsPost: validatePost,
+    showsPut: validatePut,
   };
 }

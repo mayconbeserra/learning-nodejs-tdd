@@ -33,4 +33,28 @@ export default (app) => {
         next(err);
       });
   });
+
+  app.put('/api/v1/shows/:id', validate().showsPut, (req, res, next) => {
+    const repository = new ShowsRepository();
+
+    repository.update(req.params.id, req.body)
+      .then((show) => {
+        res.status(200).json(show[0]);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  });
+
+  app.delete('/api/v1/shows/:id', (req, res, next) => {
+    const repository = new ShowsRepository();
+
+    repository.delete(req.params.id)
+      .then(() => {
+        res.status(200).end();
+      })
+      .catch((err) => {
+        next(err);
+      });
+  });
 };

@@ -5,6 +5,8 @@ export default function base () {
     getAll: getAll.bind(this),
     getById: getById.bind(this),
     insert: insert.bind(this),
+    update: update.bind(this),
+    delete: deleteShow.bind(this),
   };
 }
 
@@ -25,4 +27,14 @@ const insert = (show) => {
     show,
     ['id', 'name', 'channel', 'genre', 'rating', 'explicit'],
   );
+};
+
+const update = (id, updates) => {
+  return shows()
+    .where('id', parseInt(id, 10))
+    .update(updates, ['id', 'name', 'channel', 'genre', 'rating', 'explicit']);
+};
+
+const deleteShow = (id) => {
+  return shows().where('id', parseInt(id, 10)).del();
 };
