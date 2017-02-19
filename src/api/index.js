@@ -2,59 +2,50 @@ import ShowsRepository from '../repositories/showsRepository';
 import validate from '../middlewares/validation';
 
 export default (app) => {
-  app.get('/api/v1/shows', (req, res, next) => {
+  app.get('/api/v1/shows', async (req, res) => {
     const repository = new ShowsRepository();
-    repository.getAll().then((shows) => {
-      res.status(200).json(shows);
-    })
-    .catch((err) => {
-      next(err);
-    });
+    res
+      .status(200)
+      .send(
+        await repository.getAll(),
+      );
   });
 
-  app.get('/api/v1/shows/:id', (req, res, next) => {
+  app.get('/api/v1/shows/:id', async (req, res) => {
     const repository = new ShowsRepository();
-    repository.getById(req.params.id).then((show) => {
-      res.status(200).json(show);
-    })
-    .catch((err) => {
-      next(err);
-    });
+    res
+      .status(200)
+      .send(
+        await repository.getById(req.params.id),
+      );
   });
 
-  app.post('/api/v1/shows', validate().showsPost, (req, res, next) => {
+  app.post('/api/v1/shows', validate().showsPost, async (req, res) => {
     const repository = new ShowsRepository();
+    const result = await repository.insert(req.body);
 
-    repository.insert(req.body)
-      .then((show) => {
-        res.status(200).json(show[0]);
-      })
-      .catch((err) => {
-        next(err);
-      });
+    return result[0] !== null ?
+      res.status(201).json(result[0]) :
+      res.status(400);
   });
 
-  app.put('/api/v1/shows/:id', validate().showsPut, (req, res, next) => {
+  app.put('/api/v1/shows/:id', validate().showsPut, async (req, res) => {
     const repository = new ShowsRepository();
+    const result = await repository.update(req.params.id, req.body);
 
-    repository.update(req.params.id, req.body)
-      .then((show) => {
-        res.status(200).json(show[0]);
-      })
-      .catch((err) => {
-        next(err);
-      });
+    return result[0] !== null ?
+      res.status(200).json(result[0]) :
+      res.status(400);
   });
 
-  app.delete('/api/v1/shows/:id', (req, res, next) => {
+  app.delete('/api/v1/shows/:id', async (req, res) => {
     const repository = new ShowsRepository();
+    const show = await repository.getById(req.params.id);
 
-    repository.delete(req.params.id)
-      .then(() => {
-        res.status(200).end();
-      })
-      .catch((err) => {
-        next(err);
-      });
+    if (!show) res.status(404).end();
+
+    await repository.delete(req.params.id);
+
+    res.status(200).json(show);
   });
 };

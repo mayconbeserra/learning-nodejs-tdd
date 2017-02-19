@@ -6,8 +6,8 @@ import { application } from '../../src/app';
 import knex from '../../db/knex';
 
 chai.use(chaiHttp);
-let server;
 const baseUrl = '/api/v1/shows';
+let server;
 
 describe(`Testing --> ${baseUrl}`, () => {
   before(async () => {
@@ -84,7 +84,7 @@ describe(`Testing --> ${baseUrl}`, () => {
         .end(async (err, res) => {
           if (err) return done(err);
 
-          expect(res).to.have.status(200);
+          expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
           expect(res.body).to.have.property('channel', 'HBO');
           expect(res.body).to.have.property('genre', 'Serial Drama');
@@ -181,7 +181,7 @@ describe(`Testing --> ${baseUrl}`, () => {
           explicit: true,
         })
         .end(async (err, res) => {
-          expect(res).to.have.status(200);
+          expect(res).to.have.status(201);
           chai.request(server)
             .delete(`${baseUrl}/${res.body.id}`)
             .end(async (er, re) => {
@@ -191,12 +191,11 @@ describe(`Testing --> ${baseUrl}`, () => {
         });
     });
 
-    it('should return a bad request when the body is empty', (done) => {
+    it('should return a bad request when the show does NOT exist', (done) => {
       chai.request(server)
-        .post(baseUrl)
-        .send({ })
+        .delete(`${baseUrl}/9999`)
         .end(async (err, res) => {
-          expect(res).to.have.status(400);
+          expect(res).to.have.status(404);
           return done();
         });
     });

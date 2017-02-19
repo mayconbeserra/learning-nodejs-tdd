@@ -28,5 +28,6 @@ export async function start (config) {
       console.log('listening'); /* eslint no-console:0 */
     });
   } catch (err) {
+    console.log(`A critical error happened: ${err}`);
   }
 }

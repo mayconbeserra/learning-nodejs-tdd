@@ -2,8 +2,8 @@ import knex from '../../db/knex';
 
 export default function base () {
   return {
-    getAll: getAll.bind(this),
     getById: getById.bind(this),
+    getAll: getAll.bind(this),
     insert: insert.bind(this),
     update: update.bind(this),
     delete: deleteShow.bind(this),
