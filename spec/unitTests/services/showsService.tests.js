@@ -10,13 +10,14 @@ describe('Testing --> Services.Shows', () => {
       sinon.stub(repository, 'getById', fakeShow);
 
       const result = await ShowService({ show: repository }).detail(1);
+      const expected = fakeShow();
 
-      expect(result).to.have.property('id');
-      expect(result).to.have.property('name');
-      expect(result).to.have.property('channel');
-      expect(result).to.have.property('genre');
-      expect(result).to.have.property('rating');
-      expect(result).to.have.property('explicit');
+      expect(result).to.have.property('id', expected.id);
+      expect(result).to.have.property('name', expected.name);
+      expect(result).to.have.property('channel', expected.channel);
+      expect(result).to.have.property('genre', expected.genre);
+      expect(result).to.have.property('rating', expected.rating);
+      expect(result).to.have.property('explicit', expected.explicit);
     });
   });
 
@@ -26,13 +27,48 @@ describe('Testing --> Services.Shows', () => {
       sinon.stub(repository, 'insert', fakeShow);
 
       const result = await ShowService({ show: repository }).create(fakeShow);
+      const expected = fakeShow();
 
-      expect(result).to.have.property('id');
-      expect(result).to.have.property('name');
-      expect(result).to.have.property('channel');
-      expect(result).to.have.property('genre');
-      expect(result).to.have.property('rating');
-      expect(result).to.have.property('explicit');
+      expect(result).to.have.property('id', expected.id);
+      expect(result).to.have.property('name', expected.name);
+      expect(result).to.have.property('channel', expected.channel);
+      expect(result).to.have.property('genre', expected.genre);
+      expect(result).to.have.property('rating', expected.rating);
+      expect(result).to.have.property('explicit', expected.explicit);
+    });
+  });
+
+  describe('Update', () => {
+    it('should update an existing show', async () => {
+      const repository = new ShowsRepository();
+      sinon.stub(repository, 'update', fakeShow);
+
+      const result = await ShowService({ show: repository }).update(1, fakeShow);
+      const expected = fakeShow();
+
+      expect(result).to.have.property('id', expected.id);
+      expect(result).to.have.property('name', expected.name);
+      expect(result).to.have.property('channel', expected.channel);
+      expect(result).to.have.property('genre', expected.genre);
+      expect(result).to.have.property('rating', expected.rating);
+      expect(result).to.have.property('explicit', expected.explicit);
+    });
+  });
+
+  describe('Delete', () => {
+    it('should delete an existing show', async () => {
+      const repository = new ShowsRepository();
+      sinon.stub(repository, 'delete', fakeShow);
+
+      const result = await ShowService({ show: repository }).del(1);
+      const expected = fakeShow();
+
+      expect(result).to.have.property('id', expected.id);
+      expect(result).to.have.property('name', expected.name);
+      expect(result).to.have.property('channel', expected.channel);
+      expect(result).to.have.property('genre', expected.genre);
+      expect(result).to.have.property('rating', expected.rating);
+      expect(result).to.have.property('explicit', expected.explicit);
     });
   });
 
