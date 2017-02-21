@@ -5,7 +5,6 @@ export async function list (req, res) {
   const data = await reportService({
     show: repository(),
   }).list();
-
   res.status(200).json(data);
 }
 

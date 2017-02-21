@@ -23,9 +23,8 @@ export async function start (config) {
   try {
     const app = await application(config);
     console.log('## Debugging 2 ### ');
-    console.log(config);
     app.listen(config.env.http.port, config.env.http.host, () => {
-      console.log('listening'); /* eslint no-console:0 */
+      console.log(`listening on ${config.env.http.host}:${config.env.http.port}`); /* eslint no-console:0 */
     });
   } catch (err) {
     console.log(`A critical error happened: ${err}`);
