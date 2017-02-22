@@ -63,6 +63,8 @@ describe('Testing --> Services.Shows', () => {
       const result = await ShowService({ show: repository }).del(1);
       const expected = fakeShow();
 
+      expect(repository.delete.calledOnce).to.be.equals(true);
+      expect(repository.delete.getCall(0).args[0]).to.be.equals(1);
       expect(result).to.have.property('id', expected.id);
       expect(result).to.have.property('name', expected.name);
       expect(result).to.have.property('channel', expected.channel);
